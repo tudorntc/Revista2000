@@ -8,7 +8,10 @@ body {
     height: 100vh;
     width: 100%;
     font-family: 'Poppins', sans-serif;
-    background-color: #fff;
+    background-color: #2C2C2C;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 .elevator{
@@ -26,7 +29,7 @@ body {
     transform: translateX(-50%);
     position: relative;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0.3) 100%);
-    z-index: 9;
+    z-index: 5;
 }
 
 .elevator-image{
@@ -95,7 +98,7 @@ body {
         #FFE4E1 77%,    /* Pale pink - 2010s mobile */
         #E6E6FA 84%,    /* Light purple - 2020s AI */
         #E0E4E7 91%,    /* Light gray - Near future */
-        #2C2C2C 100%    /* Dark gray - Far future */
+        #F5F5F5 100%    /* Dark gray - Far future */
     );
     position: relative;
     z-index: 1;
@@ -103,6 +106,7 @@ body {
 
 .content-section {
     height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -196,10 +200,10 @@ body {
 }
 
 #future-glimpse h1 {
-    color: white;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 #future-glimpse p {
-    color: #ccc;
+    color: #333;
 }
