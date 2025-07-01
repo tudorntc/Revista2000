@@ -9,14 +9,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressFill = document.querySelector('.progress-fill');
     const contentSections = document.querySelectorAll('.content-section');
 
-    // Define altitude ranges for each section
-    const altitudeRanges = [
-        { element: document.getElementById('ground-level'), name: 'Ground Level', minAlt: 0, maxAlt: 100 },
-        { element: document.getElementById('buildings'), name: 'Skyscrapers', minAlt: 100, maxAlt: 1000 },
-        { element: document.getElementById('mountains'), name: 'Mountain Peaks', minAlt: 1000, maxAlt: 10000 },
-        { element: document.getElementById('aircraft'), name: 'Commercial Aviation', minAlt: 10000, maxAlt: 15000 },
-        { element: document.getElementById('stratosphere'), name: 'Stratosphere', minAlt: 15000, maxAlt: 50000 },
-        { element: document.getElementById('space'), name: 'Edge of Space', minAlt: 50000, maxAlt: 100000 }
+    // Define year ranges for each section
+    const yearRanges = [
+        { element: document.getElementById('turn-of-century'), name: '1900-1910', minYear: 1900, maxYear: 1910 },
+        { element: document.getElementById('early-teens'), name: '1910-1920', minYear: 1910, maxYear: 1920 },
+        { element: document.getElementById('roaring-twenties'), name: '1920-1930', minYear: 1920, maxYear: 1930 },
+        { element: document.getElementById('depression-era'), name: '1930-1940', minYear: 1930, maxYear: 1940 },
+        { element: document.getElementById('war-innovation'), name: '1940-1950', minYear: 1940, maxYear: 1950 },
+        { element: document.getElementById('fifties-boom'), name: '1950-1960', minYear: 1950, maxYear: 1960 },
+        { element: document.getElementById('space-age'), name: '1960-1970', minYear: 1960, maxYear: 1970 },
+        { element: document.getElementById('personal-computing'), name: '1970-1980', minYear: 1970, maxYear: 1980 },
+        { element: document.getElementById('pc-revolution'), name: '1980-1990', minYear: 1980, maxYear: 1990 },
+        { element: document.getElementById('world-wide-web'), name: '1990-2000', minYear: 1990, maxYear: 2000 },
+        { element: document.getElementById('social-media-birth'), name: '2000-2010', minYear: 2000, maxYear: 2010 },
+        { element: document.getElementById('mobile-first'), name: '2010-2020', minYear: 2010, maxYear: 2020 },
+        { element: document.getElementById('ai-revolution'), name: '2020-2025', minYear: 2020, maxYear: 2025 },
+        { element: document.getElementById('future-glimpse'), name: 'The Future', minYear: 2025, maxYear: 2030 }
     ];
 
     // Set initial position - below top floor
@@ -57,17 +65,17 @@ document.addEventListener('DOMContentLoaded', function() {
         elevator.style.top = elevatorPosition + 'px';
         elevator.style.transform = 'translateX(-50%)';
         
-        // Calculate current altitude (0 to 100,000m) - this continues throughout entire scroll
-        const currentAltitude = Math.round(scrollPercentage * 100000);
-        altitudeValue.textContent = currentAltitude.toLocaleString();
+        // Calculate current year (1900 to 2025)
+        const currentYear = Math.round(1900 + (scrollPercentage * 125)); // 125 years total (1900-2025)
+        altitudeValue.textContent = currentYear;
         
         // Update progress bar
         progressFill.style.width = (scrollPercentage * 100) + '%';
         
         // Determine current section and update display
-        let currentSection = altitudeRanges[0];
-        for (let range of altitudeRanges) {
-            if (currentAltitude >= range.minAlt && currentAltitude <= range.maxAlt) {
+        let currentSection = yearRanges[0];
+        for (let range of yearRanges) {
+            if (currentYear >= range.minYear && currentYear <= range.maxYear) {
                 currentSection = range;
                 break;
             }

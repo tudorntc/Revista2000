@@ -14,8 +14,8 @@ body {
 .elevator{
     height: 100vh;
     width: 100px;
-    background-color: aquamarine;
     position: fixed;
+    z-index: 100;
 }
 
 .line{
@@ -33,39 +33,25 @@ body {
     height: 150px;
     width: 80px;
     border-radius: 15px;
-    background: linear-gradient(145deg, #e6e6e6, #c7c7c7);
-    box-shadow: 
-        inset 5px 5px 10px #b8b8b8,
-        inset -5px -5px 10px #f4f4f4,
-        0 10px 20px rgba(0,0,0,0.2);
+    background-image: url('man.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     user-select: none;
-    border: 2px solid #999;
 }
 
 .elevator-image::before {
-    content: '';
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    height: 40px;
-    background: linear-gradient(145deg, #333, #666);
-    border-radius: 8px;
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+    display: none;
 }
 
 .elevator-image::after {
-    content: '🏢';
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
+    display: none;
 }
 
 .top-floor{
@@ -74,13 +60,11 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: red;
 }
 
 .middle-floor{
     height: calc(100% - 100px - 100px);
     width: 100%;
-    background-color: orange;
     position: absolute;
     top: 100px;
 }
@@ -91,22 +75,30 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: green;
 }
 
 .scrollable-div{
-    height: 1000vh;
-    width: calc(100% - 100px);
+    height: 1400vh;
+    width: 100%;
     background: linear-gradient(to bottom, 
-        #87CEEB 0%,     /* Sky blue */
-        #98D8E8 20%,    /* Light blue */
-        #B0E0E6 40%,    /* Powder blue */
-        #E6F3FF 60%,    /* Very light blue */
-        #F0F8FF 80%,    /* Alice blue */
-        #000011 100%    /* Deep space */
+        #E6D7C3 0%,     /* Warm beige - Industrial age */
+        #F0E5D0 7%,     /* Soft cream - Early 1900s */
+        #F5E6D3 14%,    /* Light peach - 1920s */
+        #F8E8DC 21%,    /* Pale orange - 1930s */
+        #FFE4E1 28%,    /* Misty rose - 1940s war era */
+        #FFE4E6 35%,    /* Light pink - 1950s prosperity */
+        #E6E6FA 42%,    /* Lavender - 1960s space age */
+        #E0F6FF 49%,    /* Pale blue - 1970s tech */
+        #E0F8F8 56%,    /* Light cyan - 1980s */
+        #F0FFF0 63%,    /* Honeydew - 1990s web */
+        #FFFFE0 70%,    /* Light yellow - 2000s social media */
+        #FFE4E1 77%,    /* Pale pink - 2010s mobile */
+        #E6E6FA 84%,    /* Light purple - 2020s AI */
+        #E0E4E7 91%,    /* Light gray - Near future */
+        #2C2C2C 100%    /* Dark gray - Far future */
     );
     position: relative;
-    left: 100px;
+    z-index: 1;
 }
 
 .content-section {
@@ -203,23 +195,11 @@ body {
     width: 0%;
 }
 
-/* Space section styling */
-#space {
+#future-glimpse h1 {
     color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
-#space h1 {
-    color: white;
-}
-
-#space p {
+#future-glimpse p {
     color: #ccc;
-}
-
-#stratosphere h1 {
-    color: #333;
-}
-
-#stratosphere p {
-    color: #555;
 }
