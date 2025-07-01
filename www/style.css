@@ -1,0 +1,225 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+}
+
+.elevator{
+    height: 100vh;
+    width: 100px;
+    background-color: aquamarine;
+    position: fixed;
+}
+
+.line{
+    height: 100%;
+    width: 2px;
+    background-color: #000;
+    left: 50%;
+    transform: translateX(-50%);
+    position: relative;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0.3) 100%);
+    z-index: 9;
+}
+
+.elevator-image{
+    height: 150px;
+    width: 80px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #e6e6e6, #c7c7c7);
+    box-shadow: 
+        inset 5px 5px 10px #b8b8b8,
+        inset -5px -5px 10px #f4f4f4,
+        0 10px 20px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    user-select: none;
+    border: 2px solid #999;
+}
+
+.elevator-image::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    height: 40px;
+    background: linear-gradient(145deg, #333, #666);
+    border-radius: 8px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.elevator-image::after {
+    content: '🏢';
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+}
+
+.top-floor{
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+}
+
+.middle-floor{
+    height: calc(100% - 100px - 100px);
+    width: 100%;
+    background-color: orange;
+    position: absolute;
+    top: 100px;
+}
+
+.bottom-floor{
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: green;
+}
+
+.scrollable-div{
+    height: 1000vh;
+    width: calc(100% - 100px);
+    background: linear-gradient(to bottom, 
+        #87CEEB 0%,     /* Sky blue */
+        #98D8E8 20%,    /* Light blue */
+        #B0E0E6 40%,    /* Powder blue */
+        #E6F3FF 60%,    /* Very light blue */
+        #F0F8FF 80%,    /* Alice blue */
+        #000011 100%    /* Deep space */
+    );
+    position: relative;
+    left: 100px;
+}
+
+.content-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.content-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.content-section h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.content-section p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.altitude-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007acc;
+    background: rgba(255,255,255,0.8);
+    padding: 10px 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.info-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    z-index: 1000;
+    min-width: 200px;
+}
+
+.current-altitude {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007acc;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.altitude-unit {
+    font-size: 1rem;
+    color: #666;
+}
+
+.current-section {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #007acc, #00aaff);
+    border-radius: 3px;
+    transition: width 0.1s ease;
+    width: 0%;
+}
+
+/* Space section styling */
+#space {
+    color: white;
+}
+
+#space h1 {
+    color: white;
+}
+
+#space p {
+    color: #ccc;
+}
+
+#stratosphere h1 {
+    color: #333;
+}
+
+#stratosphere p {
+    color: #555;
+}
