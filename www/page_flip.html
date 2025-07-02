@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>PDF Flipbook Viewer - Alternative</title>
+
+	<!-- Use jQuery and PDF.js -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+	<style>
+		html, body {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			background: #f0f0f0;
+			overflow: hidden;
+		}
+
+		#flipbook {
+			width: 800px;
+			height: 600px;
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.page {
+			width: 100%;
+			height: 100%;
+			background-size: contain;
+			background-position: center;
+			background-repeat: no-repeat;
+			border: 1px solid #ddd;
+			background-color: #f0f0f0;
+			display: none;
+			cursor: pointer;
+		}
+
+		.page.active {
+			display: block;
+		}
+
+		.page.transitioning {
+			opacity: 0.5;
+			transition: opacity 0.3s ease-in-out;
+		}
+
+		.hard {
+			background: #fff !important;
+			color: #333;
+			line-height: 600px;
+			text-align: center;
+			font-size: 18px;
+		}
+
+		.controls {
+			margin-top: 20px;
+			display: flex;
+			gap: 15px;
+			align-items: center;
+		}
+
+		.controls button {
+			padding: 10px 20px;
+			font-size: 16px;
+			background: #007bff;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background 0.3s;
+		}
+
+		.controls button:hover {
+			background: #0056b3;
+		}
+
+		.controls button:disabled {
+			background: #ccc;
+			cursor: not-allowed;
+		}
+
+		.page-info {
+			font-size: 16px;
+			color: #333;
+			font-weight: bold;
+		}
+
+		.instructions {
+			margin-top: 10px;
+			text-align: center;
+			color: #666;
+			font-size: 14px;
+		}
+
+		.page-number {
+			position: absolute;
+			bottom: 10px;
+			left: 50%;
+			transform: translateX(-50%);
+			font-size: 12px;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="flip-book-container">
+		<div id="flipbook">
+			<div class="hard">Loading PDF...</div>
+			<div class="hard">Back Cover</div>
+		</div>
+	</div>
+
+	<div class="controls">
+		<button id="prevBtn" onclick="previousPage()">← Previous</button>
+		<span class="page-info" id="pageInfo">Page 1 of 1</span>
+		<button id="nextBtn" onclick="nextPage()">Next →</button>
+	</div>
+
+	<div class="instructions">
+		Click page edges to flip • Use navigation buttons
+	</div>
+
+	<script>
+		// Set PDF.js worker
+		pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+		let currentPage = 0;
+		let totalPages = 1;
+		let pages = [];
+
+		document.addEventListener("DOMContentLoaded", function () {
+			console.log('Page loaded, initializing custom flipbook...');
+			loadPDF();
+		});
+
+		function loadPDF() {
+			const pdfUrl = '1968_Nr_1.pdf';
+
+			pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+				console.log('PDF loaded, pages:', pdf.numPages);
+				totalPages = pdf.numPages;
+
+				// Clear existing content
+				$("#flipbook").empty();
+
+				// Add pages with actual PDF content
+				const promises = [];
+				for (let i = 1; i <= pdf.numPages; i++) {
+					promises.push(renderPDFPage(pdf, i));
+				}
+
+				Promise.all(promises).then(function(pageElements) {
+					pages = pageElements;
+
+					// Add all pages to flipbook
+					pages.forEach(function(pageElement, index) {
+						pageElement.classList.add('page');
+						pageElement.setAttribute('data-page', index + 1);
+
+						// Add click handler for page flipping
+						pageElement.addEventListener('click', function(e) {
+							const rect = this.getBoundingClientRect();
+							const clickX = e.clientX - rect.left;
+
+							if (clickX < rect.width / 2) {
+								previousPage();
+							} else {
+								nextPage();
+							}
+						});
+
+						$("#flipbook").append(pageElement);
+					});
+
+					// Show first page
+					showCurrentPage();
+					updatePageInfo();
+					console.log('Simple flipbook ready with', pdf.numPages, 'pages');
+				});
+
+			}).catch(function(error) {
+				console.log('Could not load PDF:', error);
+				$("#flipbook").html('<div class="hard">Could not load PDF</div>');
+			});
+		}
+
+		function renderPDFPage(pdf, pageNumber) {
+			return pdf.getPage(pageNumber).then(function(page) {
+				const scale = 1.5;
+				const viewport = page.getViewport({ scale: scale });
+
+				// Create canvas element
+				const canvas = document.createElement('canvas');
+				const context = canvas.getContext('2d');
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+
+				// Create div to hold the canvas
+				const pageDiv = document.createElement('div');
+				pageDiv.style.width = '800px';
+				pageDiv.style.height = '600px';
+
+				// Add page number
+				const pageNum = document.createElement('div');
+				pageNum.className = 'page-number';
+				pageNum.textContent = pageNumber;
+				pageDiv.appendChild(pageNum);
+
+				// Render PDF page to canvas
+				const renderContext = {
+					canvasContext: context,
+					viewport: viewport
+				};
+
+				return page.render(renderContext).promise.then(function() {
+					pageDiv.style.backgroundImage = 'url(' + canvas.toDataURL() + ')';
+					return pageDiv;
+				});
+			});
+		}
+
+		function showCurrentPage() {
+			pages.forEach(function(page, index) {
+				if (index === currentPage) {
+					page.classList.add('active');
+					page.classList.remove('transitioning');
+				} else {
+					page.classList.remove('active');
+				}
+			});
+		}
+
+		function nextPage() {
+			if (currentPage < totalPages - 1) {
+				pages[currentPage].classList.add('transitioning');
+				setTimeout(() => {
+					currentPage++;
+					showCurrentPage();
+					updatePageInfo();
+				}, 150);
+			}
+		}
+
+		function previousPage() {
+			if (currentPage > 0) {
+				pages[currentPage].classList.add('transitioning');
+				setTimeout(() => {
+					currentPage--;
+					showCurrentPage();
+					updatePageInfo();
+				}, 150);
+			}
+		}
+
+		function updatePageInfo() {
+			document.getElementById('pageInfo').textContent = `Page ${currentPage + 1} of ${totalPages}`;
+			document.getElementById('prevBtn').disabled = currentPage <= 0;
+			document.getElementById('nextBtn').disabled = currentPage >= totalPages - 1;
+		}
+	</script>
+</body>
+</html>
