@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greetings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            font-family: Arial, sans-serif;
+        }
+
+        #greeting {
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            transform: translateY(0);
+            color: #3578E5;
+        }
+
+        .greeting-container{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1.5s ease;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="greeting-container" id="greeting-container">
+        <p id="greeting">Hello</p>
+    </div>
+
+    <script>
+        const greetings = [
+            'Hello',
+            'Hola', 
+            'Bonjour',
+            'Hallo',
+            'Ciao',
+            'こんにちは',
+            '안녕하세요',
+            '你好',
+            'Olá',
+            'Привет',
+            'Hello'
+        ];
+
+        let index = 0;
+        const greetingElement = document.getElementById('greeting');
+
+        function changeGreeting() {
+            greetingElement.textContent = greetings[index];
+            
+            // First greeting ("Hello") stays for 0.3 seconds, others for 0.1 seconds
+            const delay = index === 0 ? 500 : 200;
+            
+            index = (index + 1) % greetings.length;
+            
+            // Check if we completed one full cycle (back to index 0)
+            if (index === 0) {
+                // Wait 1 second before applying transform
+                setTimeout(() => {
+                    document.getElementById("greeting-container").style.transform = 'translateY(-100%)';
+                }, 500);
+                return; // Stop the cycle
+            }
+            
+            setTimeout(changeGreeting, delay);
+        }
+
+        changeGreeting(); // Start the cycle
+    </script>
+</body>
+</html>
