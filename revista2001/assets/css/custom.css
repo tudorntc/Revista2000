@@ -1,0 +1,11 @@
+/* PLACE YOU CUSTOM STYLES IN THIS FILE */
+:root{
+    --main-color: #3578E5;
+}
+
+.nk-slider-categories, .nk-custom-navigation{
+    display: flex; 
+    gap: 50px !important; 
+    align-items: center;
+}
+
